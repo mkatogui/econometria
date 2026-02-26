@@ -1,59 +1,123 @@
-# Generación de la tesis en PDF
+# Tesis: Predicción de la liquidación de divisas del sector agroexportador
+
+Comparación de capacidad predictiva de modelos de series temporales (SARIMA, AR(1), ETS, Theta, NNETAR, LSTM) y combinaciones de pronósticos para la liquidación de divisas del sector agroexportador argentino. El documento se genera en **PDF** (formato principal) y **HTML** (lectura en navegador).
+
+---
 
 ## Requisitos
 
-- R con paquetes: `rmarkdown`, `knitr`, `openxlsx`, y las dependencias de `coding.R` (p. ej. `tidyverse`, `forecast`, etc.).
-- LaTeX instalado (MiKTeX, TeX Live o TinyTeX) para compilar el PDF.
+- **R** con paquetes: `rmarkdown`, `knitr`, `openxlsx`, `readxl`, y las dependencias de `coding.R` (p. ej. `tidyverse`, `forecast`, etc.).
+- **LaTeX** (MiKTeX, TeX Live o TinyTeX) para compilar el PDF.
 
 ### Si aparece el error «"pdflatex" not found»
 
-R Markdown necesita el ejecutable `pdflatex` para generar el PDF. Si no tienes LaTeX instalado (o no está en el PATH), instala **TinyTeX** desde R:
+R Markdown necesita `pdflatex` para generar el PDF. Instala TinyTeX desde R:
 
 ```r
 install.packages("tinytex")
 tinytex::install_tinytex()
 ```
 
-Cierra y vuelve a abrir RStudio, luego vuelve a hacer Knit. Si faltan paquetes LaTeX durante la compilación, TinyTeX los instalará al vuelo; si no, ejecuta:
+Si faltan paquetes LaTeX durante la compilación:
 
 ```r
 tinytex::tlmgr_install(c("babel-spanish", "booktabs", "natbib"))  # según los avisos
 ```
 
-## Cómo generar el PDF
+---
 
-**Para que las tablas del Capítulo 4 y del Anexo muestren datos reales**, debe existir `Tabla.Resultados.xlsx` en el directorio del proyecto. Ese archivo se genera ejecutando el script `coding.R` (requiere los datos de entrada en formato .xls según indica el script). Si el archivo no existe, el PDF se compila pero las tablas de resultados pueden aparecer vacías.
+## Cómo generar el documento
 
-1. **Desde RStudio**: abra `thesis.Rmd` y pulse **Knit** (o `Ctrl+Shift+K`). Si tiene configurado el proyecto para ejecutar `coding.R` antes del Knit, se generará `Tabla.Resultados.xlsx` y las tablas del capítulo 4 se poblarán con los resultados. En caso contrario, ejecute primero `source("coding.R")` desde R en la carpeta del proyecto, luego Knit.
+### Datos y tablas de resultados
 
-2. **Sin re-ejecutar el análisis**: en el primer chunk de `thesis.Rmd` cambie `RUN_ANALYSIS <- TRUE` por `RUN_ANALYSIS <- FALSE`. Asegúrese de tener ya generado `Tabla.Resultados.xlsx` en el mismo directorio (ejecutando `coding.R` una vez). El PDF se generará usando esos datos.
+Las tablas del **Capítulo 4** y del **Anexo** (Resumen, MAPE, sMAPE, MASE, Diebold-Mariano, etc.) se rellenan desde el archivo `Tabla.Resultados.xlsx`. Ese archivo **no se genera automáticamente** al hacer Knit; debe crearse ejecutando el script de análisis:
 
-3. **Desde R (consola)**:
+```r
+setwd("ruta/a/econometria")   # carpeta del proyecto
+source("coding.R")
+```
+
+`coding.R` requiere los datos de entrada en formato `.xls` (según el script). Si **no** existe `Tabla.Resultados.xlsx`, el documento se compila igual, pero las tablas de resultados pueden quedar vacías.
+
+### Generar el PDF
+
+1. **Desde RStudio**: abra `thesis.Rmd`, elija salida **PDF** y pulse **Knit** (o `Ctrl+Shift+K`).
+2. **Desde R (consola)**:
    ```r
-   setwd("ruta/a/econometria")   # carpeta donde están thesis.Rmd y coding.R
-   rmarkdown::render("thesis.Rmd")
+   setwd("ruta/a/econometria")
+   rmarkdown::render("thesis.Rmd", output_format = "pdf_document")
    ```
-   El PDF quedará en la misma carpeta: `thesis.pdf`.
+   El PDF se guarda en la misma carpeta: `thesis.pdf`.
 
-4. **Citas y referencias (evitar los "?")**: Tras el Knit, el PDF puede mostrar "(?)" en las citas y en "Tabla X" porque LaTeX aún no ha ejecutado BibTeX. El Knit copia `Thesis_LaTeX/references.bib` a `references.bib` en la carpeta del proyecto. Desde esa misma carpeta (donde está `thesis.tex`), ejecute **una vez** la secuencia completa:
+### Citas y referencias en el PDF
+
+Si en el PDF aparecen "(?)" en las citas o en "Tabla X", hay que ejecutar BibTeX. Con `keep_tex: true` se genera `thesis.tex`. Desde la carpeta del proyecto:
+
+```r
+tinytex::latexmk("thesis.tex")
+```
+
+O en la terminal:
+
+```bash
+pdflatex thesis && bibtex thesis && pdflatex thesis && pdflatex thesis
+```
+
+Luego vuelva a abrir `thesis.pdf`.
+
+### Generar el HTML
+
+1. **Desde RStudio**: abra `thesis.Rmd`, elija salida **HTML** y pulse **Knit**.
+2. **Desde R**:
    ```r
-   setwd("ruta/a/econometria")   # la carpeta de thesis.tex
-   tinytex::latexmk("thesis.tex")
+   rmarkdown::render("thesis.Rmd", output_format = "html_document")
    ```
-   O en la terminal (en la carpeta del proyecto):
-   ```bash
-   pdflatex thesis && bibtex thesis && pdflatex thesis && pdflatex thesis
-   ```
-   Vuelva a abrir `thesis.pdf`: las citas (Autor, año) y la referencia "Tabla X" deberían verse correctamente, sin "(?)".
 
-## Salida HTML vs PDF
+Se genera `thesis.html`. Para que se vea correctamente:
 
-- **PDF**: formato principal de la tesis (portada, resumen, índice, referencias cruzadas y citas completas). Use *Knit → PDF* o `rmarkdown::render("thesis.Rmd", output_format = "pdf_document")`.
-- **HTML**: versión legible en navegador; el resumen y los capítulos se sanean para mostrar títulos, negritas y referencias de forma aproximada. Las citas aparecen como claves (@autor2020). Para la versión definitiva use PDF.
+- La carpeta **`thesis_files/`** (Bootstrap, figuras generadas por R, etc.) debe estar junto a `thesis.html`.
+- El archivo **`thesis-html.css`** debe estar en la misma carpeta (estilos propios del HTML).
+- Las figuras 2.1–2.4 (redes neuronales) usan `figures/figura1.png` … `figures/figura4.png`. Si existe la carpeta **`figures/`** con esos archivos, las imágenes se mostrarán; si no, esas cuatro figuras aparecerán rotas en el HTML.
 
-## Estructura
+Al compartir el HTML, incluya `thesis.html`, `thesis_files/`, `thesis-html.css` y, si aplica, `figures/`.
 
-- `thesis.Rmd`: documento principal que combina LaTeX y R.
-- `coding.R`: script de análisis (modelos, métricas, export a Excel).
-- `Thesis_LaTeX/`: capítulos en `.tex`, `references.bib` y `preamble.tex`.
-- `Tabla.Resultados.xlsx`: generado por `coding.R`; las tablas del capítulo 4 se rellenan desde aquí.
+---
+
+## Salida PDF vs HTML
+
+| Aspecto        | PDF                         | HTML                                      |
+|----------------|-----------------------------|-------------------------------------------|
+| Uso            | Versión principal, entrega | Lectura en navegador                      |
+| Portada        | Título, autor, fecha        | Título, autor, fecha, abstract            |
+| Estructura     | Secciones 1–6 + Anexo       | Igual; TOC flotante, secciones numeradas  |
+| Tablas/figuras | Desde Excel y chunks R      | Igual; figuras en `thesis_files/` o `figures/` |
+| Citas          | Estilo autor-año (BibTeX)   | Estilo autor-año (si se procesan)         |
+| Math           | LaTeX nativo                | MathJax (requiere conexión para cargar)   |
+
+---
+
+## Estructura del proyecto
+
+| Elemento | Descripción |
+|----------|-------------|
+| `thesis.Rmd` | Documento principal (Markdown + R). Única fuente para PDF y HTML. |
+| `coding.R` | Script de análisis: estimación de modelos, métricas, test de Diebold-Mariano, export a Excel. |
+| `Tabla.Resultados.xlsx` | Generado por `coding.R`. Alimenta las tablas del Capítulo 4 y del Anexo. |
+| `thesis-html.css` | Hoja de estilos para el HTML (tipografía, ancho máximo, tablas, TOC). |
+| `references.bib` | Base de datos bibliográfica para citas. |
+| `thesis_files/` | Carpeta generada al compilar HTML (Bootstrap, jQuery, figuras R, etc.). |
+| `figures/` | Opcional. Incluir `figura1.png` … `figura4.png` para las figuras del Marco teórico en HTML. |
+
+---
+
+## Estructura del documento (tesis)
+
+1. **Introducción** — Pregunta de investigación, objetivo, contribución, roadmap.
+2. **Marco teórico** — SARIMA/ARIMA, ETS, Theta, NNETAR, LSTM, métricas, test de Diebold-Mariano.
+3. **Metodología y datos** — Fuente de datos (CIARA-CEC), ventana rodante (47 evaluaciones, 179 obs, 12 meses), benchmark naive, supuestos.
+4. **Resultados y discusión** — Métricas por modelo, errores acumulados, test DM, robustez, literatura.
+5. **Limitaciones** — Univariado, tamaño muestral, periodo, estabilidad estructural, benchmark.
+6. **Conclusiones** — Síntesis y extensiones.
+7. **Anexo** — Tablas detalladas (sMAPE, RMSE, etc.), figuras auxiliares, nota de reproducibilidad.
+
+El **abstract** está definido en el YAML de `thesis.Rmd`; en PDF puede no mostrarse si la portada es personalizada; en HTML sí aparece bajo el título.
