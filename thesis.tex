@@ -1,0 +1,863 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\documentclass[
+  12pt, a4paper, oneside]{article}
+\usepackage{xcolor}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{5}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+% definitions for citeproc citations
+\NewDocumentCommand\citeproctext{}{}
+\NewDocumentCommand\citeproc{mm}{%
+  \begingroup\def\citeproctext{#2}\cite{#1}\endgroup}
+\makeatletter
+ % allow citations to break across lines
+ \let\@cite@ofmt\@firstofone
+ % avoid brackets around text for \cite:
+ \def\@biblabel#1{}
+ \def\@cite#1#2{{#1\if@tempswa , #2\fi}}
+\makeatother
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newenvironment{CSLReferences}[2] % #1 hanging-indent, #2 entry-spacing
+ {\begin{list}{}{%
+  \setlength{\itemindent}{0pt}
+  \setlength{\leftmargin}{0pt}
+  \setlength{\parsep}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+   \setlength{\leftmargin}{\cslhangindent}
+   \setlength{\itemindent}{-1\cslhangindent}
+  \fi
+  % set entry spacing
+  \setlength{\itemsep}{#2\baselineskip}}}
+ {\end{list}}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{\hfill\break\parbox[t]{\linewidth}{\strut\ignorespaces#1\strut}}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-noshorthands]{babel}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{booktabs, array, float, caption}
+\usepackage{geometry}
+\geometry{top=2.5cm, bottom=2.5cm, left=3cm, right=3cm}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Predicción de la liquidación de divisas del sector agroexportador: modelos clásicos, ETS, Theta, NNETAR y LSTM},
+  pdfauthor={Cristian Marcelo Katogui},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Predicción de la liquidación de divisas del sector agroexportador: modelos clásicos, ETS, Theta, NNETAR y LSTM}
+\author{Cristian Marcelo Katogui}
+\date{Febrero de 2026}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+La Argentina concentra gran parte de su ingreso de divisas en exportaciones del sector primario, siendo el agropecuario la principal fuente. Anticipar la magnitud de las liquidaciones agroexportadoras permite al gobierno y a las empresas reducir la incertidumbre en la planificación financiera. Esta tesis compara la capacidad predictiva de modelos de series temporales (SARIMA, AR(1)), suavizado exponencial (ETS), método Theta, red neuronal autorregresiva (NNETAR) y LSTM, junto con combinaciones de pronósticos, para la liquidación de divisas del sector agroexportador. Se utiliza la serie mensual junio 2002--marzo 2022; se realizaron 47 evaluaciones con ventana rodante y horizontes de 1 a 12 meses. La precisión se mide con RMSE, MAE, MAPE, SMAPE y MASE (respecto a un benchmark naive estacional), y se contrasta estadísticamente con el test de Diebold-Mariano. Los resultados indican que la combinación de pronósticos alcanza en general los menores errores promedio; SARIMA destaca por capturar la estacionalidad; la LSTM, tras optimización de hiperparámetros, es competitiva en varios horizontes pero no supera de forma sistemática a SARIMA en el contraste de Diebold-Mariano.
+\end{abstract}
+
+\begin{titlepage}
+  \centering
+  \vspace*{2cm}
+  {\huge\bfseries Predicción de la liquidación de divisas del sector agroexportador \par}
+  \vspace{0.5cm}
+  {\Large\itshape Modelos clásicos, ETS, Theta, NNETAR y LSTM \par}
+  \vspace{2cm}
+  {\Large Cristian Marcelo Katogui \par}
+  \vspace{0.5cm}
+  {\large Febrero de 2026 \par}
+  \vfill
+\end{titlepage}
+\newpage
+\tableofcontents
+\newpage
+
+\section{Introducción}\label{introducciuxf3n}
+
+La Argentina es un país que concentra principalmente su ingreso de divisas en exportaciones del sector primario, siendo el sector agropecuario la principal fuente de generación de divisas. De acuerdo con datos de INDEC (Amiel and Dalton 2022), en el año 2021 el complejo oleaginoso-cerealero, que incluye a la industria del biodiesel y sus derivados, aportó el 51\% de las exportaciones totales, cifra equivalente a 40 mil millones de dólares. Por normativa del Banco Central de la República Argentina (BCRA 2022) los exportadores están obligados a ingresar y liquidar las divisas en el mercado de cambios en un plazo máximo de 5 días hábiles.
+
+La liquidación de divisas del complejo oleaginoso se realiza en forma anticipada, con un tiempo promedio de liquidación que varía por producto. Por ejemplo, en el caso de la exportación de granos el periodo de liquidación ronda los 30 días mientras que para productos industrializados este periodo puede alcanzar hasta 90 días (Ámbito 2022). Anticipar la magnitud de las liquidaciones del sector agroexportador permite al gobierno y a las empresas reducir la incertidumbre a la hora de realizar una planificación financiera.
+
+Los niveles de producción agrícola se encuentran fuertemente determinados por condiciones estacionales y climáticas, mientras que los precios de liquidación están sujetos a factores externos volátiles. Por lo tanto, para predecir los niveles de liquidación de divisas resulta imprescindible emplear modelos que capturen relaciones complejas para minimizar el error de pronóstico. Una alternativa natural consiste en implementar modelos autorregresivos integrados de media móvil con estacionalidad (SARIMA), modelos de suavizado exponencial (ETS), el método Theta ---vencedor de la competencia M3---, redes neuronales autorregresivas (NNETAR) y redes neuronales recurrentes del tipo ``Long Short-Term Memory'' (LSTM), que permiten modelar dependencias de largo plazo.
+
+La \textbf{pregunta de investigación} es: \emph{¿Qué enfoque de pronóstico minimiza el error de predicción out-of-sample para la liquidación de divisas del sector agroexportador en horizontes de 1 a 12 meses?} El \textbf{objetivo} es evaluar de forma comparativa y cuantitativa la capacidad predictiva de varios modelos sobre datos mensuales publicados por CIARA-CEC, utilizando un esquema de ventana rodante y contrastando los resultados frente a un benchmark naive estacional (MASE). La \textbf{contribución} consiste en (i) aplicar y comparar modelos clásicos, ETS, Theta, NNETAR y LSTM sobre una serie argentina de longitud moderada y marcada estacionalidad; (ii) incorporar combinaciones de pronósticos y validación cruzada temporal para la LSTM; y (iii) contrastar estadísticamente las diferencias de desempeño mediante el test de Diebold-Mariano. Se consideran modelos clásicos (SARIMA, AR(1)), suavizado exponencial (ETS), método Theta, red neuronal autorregresiva (NNETAR), LSTM con selección de hiperparámetros por validación cruzada temporal, y combinaciones de pronósticos (promedio simple de los modelos estadísticos y, opcionalmente, incluyendo LSTM). Las métricas de precisión son RMSE, MAE, MAPE, SMAPE y MASE; el MASE permite comparar cada modelo con el pronóstico naive estacional (MASE \(< 1\) indica superación del benchmark).
+
+El trabajo se organiza de la siguiente manera. En la Sección 2 se discuten los aspectos teóricos de cada familia de modelos y las métricas de comparación. En la Sección 3 se describen los datos y los procedimientos de estimación. En la Sección 4 se presentan los resultados y su discusión. En la Sección 5 se explicitan las limitaciones del estudio. En la Sección 6 se exponen las conclusiones. En el Anexo se incluyen tablas y gráficos auxiliares.
+
+\section{Marco Teórico}\label{marco-teuxf3rico}
+
+\subsection{Modelo de Series Temporales}\label{modelo-de-series-temporales}
+
+\subsubsection{ARIMA y SARIMA}\label{arima-y-sarima}
+
+En esta sección se hará referencia a los aspectos básicos de los modelos ARIMA. Estos modelos se utilizan con gran frecuencia en Estadística y Econometría para modelar la evolución y el comportamiento de una variable aleatoria observada a lo largo del tiempo, con el fin de eventualmente pronosticar o predecir valores de esta variable de interés en el futuro. Iniciamos la sección presentando un modelo autorregresivo simple y luego pasamos a estructuras ARIMA más complejas (Brockwell and Davis 2002).
+
+Estos modelos econométricos introducen el operador rezago, que en este caso denominaremos \(B\). Por ejemplo, tenemos una secuencia de valores representados en la variable de interés \(\{Y_t\}\), que junto al operador rezago \(B^d\) con \(d \in \{1, \ldots, n\}\) definen \(d\)-rezagos en la serie. A este caso lo podemos escribir como \(B^d Y_t = Y_{t-d}\).
+
+Una de las variantes más básicas en los modelos de series temporales son los modelos autorregresivos (AR). En estos modelos el valor actual de una serie temporal \(\{Y_t\}\) es explicado por sus valores previos \((Y_{t-1}, \ldots, Y_{t-p})\), generando así el modelo autorregresivo de orden \(p\), que puede ser escrito de la siguiente manera:
+
+\[Y_t = \mu + \sum_{i=1}^{p} \phi_i Y_{t-i} + \varepsilon_t\]
+
+Siendo los \(\{\varepsilon_t\} \sim \text{RB}(0, \sigma^2)\), donde RB representa una variable aleatoria de ruido blanco y \(|\phi| < 1\). En términos del operador rezago de AR(\(p\)) el modelo puede ser escrito como:
+
+\[Y_t \Bigl(1 - \sum_{i=1}^{p} \phi_i B^i \Bigr) = \mu + \varepsilon_t\]
+
+El modelo de media móvil (MA) es un modelo donde el valor actual de la serie \(\{Y_t\}\) es modelado como una constante más la suma ponderada de sus errores pasados \((\varepsilon_{t-1}, \ldots, \varepsilon_{t-q})\). La media móvil de orden \(q\) puede ser escrita como:
+
+\[Y_t = \mu + \varepsilon_t + \sum_{j=1}^{q} \theta_j \varepsilon_{t-j}\]
+
+Siendo los \(\varepsilon_t \sim \text{RB}(0, \sigma^2)\) y \(\theta_1, \ldots, \theta_q\) los parámetros del modelo. En términos del operador rezago de MA(\(q\)): \(Y_t = \mu + (1 + \sum_{j=1}^{q} \theta_j B^j)\varepsilon_t\).
+
+El modelo ARMA es el resultado de la combinación de la componente autorregresiva y de la media móvil. Al modelo ARMA de orden \((p, q)\) lo podemos escribir como:
+
+\[Y_t = \mu + \sum_{i=1}^{p} \phi_i Y_{t-i} + \varepsilon_t + \sum_{j=1}^{q} \theta_j \varepsilon_{t-j}\]
+
+Siendo los \(\varepsilon_t \sim \text{RB}(0, \sigma^2)\). Otra forma de escritura para el modelo es en términos del operador rezago del modelo ARMA\((p, q)\): \(\Phi(B)Y_t = \mu + \Theta(B)\varepsilon_t\), con \(\Phi(B) = 1 - \sum_{i=1}^{p} \phi_i B^i\) y \(\Theta(B) = 1 + \sum_{j=1}^{q} \theta_j B^j\).
+
+Hallados los parámetros del modelo ARMA\((p, q)\), estos pueden utilizarse para proyectar valores futuros de forma recursiva. Las predicciones se realizan utilizando los parámetros del modelo ajustado junto a las observaciones y errores pasados. Para la predicción a un periodo hacia adelante (\(h=1\)) del modelo ARMA\((p, q)\), la ecuación proyectada es:
+\begin{equation}
+\hat{y}_{t+1} = \mu + \sum_{i=0}^{p-1} \hat{\phi}_{i+1} y_{t-i} + \sum_{j=0}^{q-1} \hat{\theta}_{j+1} \varepsilon_{t-j}
+\end{equation}
+Utilizando esta ecuación se puede realizar una proyección para \(h=2\) de manera recursiva empleando el valor proyectado para \(h=1\).
+
+El modelo ARIMA es un modelo muy utilizado en series temporales que fue introducido por Box y Jenkins en la década de 1970. El modelo ARIMA extiende al modelo ARMA mediante la incorporación del orden de integración en el modelo. Este modelo ARIMA estará definido por tres parámetros: \(p\), \(d\) y \(q\). El parámetro \(p\) define el orden del componente autorregresivo del modelo, mientras que el parámetro \(q\) define el orden de la media móvil, siendo el parámetro \(d\) el que define el orden de la integración (Box, Jenkins, and Ljung 2015). Dada una serie \(\{Y_t\}\), la forma ARIMA\((p, d, q)\) del modelo dado es:
+
+\begin{equation}
+\Phi(B)(1-B)^d Y_t = \mu + \Theta(B)\varepsilon_t
+\end{equation}
+
+Con el objetivo de predecir, haciendo uso de esta ecuación se puede reescribir \(Y_t = (1-B)^d X_t\), dando como resultado una forma ARMA\((p, q)\) que permite ser proyectada de manera recursiva.
+
+El modelo que incorpora estacionalidad se denomina SARIMA, que es una extensión del modelo regular de ARIMA. El orden del modelo SARIMA está definido como \((p, d, q)(P, D, Q)_m\), donde \((p, d, q)\) son el orden de la parte no estacional y \((P, D, Q)\) el orden de la componente estacional; \(m\) corresponde a la frecuencia estacional. En términos del operador rezago \(B\), el modelo SARIMA\((p, d, q)(P, D, Q)_m\) se expresa como:
+\begin{equation}
+\Phi(B)\Psi(B^m)(1-B)^d(1-B^m)^D y_t = \mu + \Theta(B)\Omega(B^m)\varepsilon_t
+\end{equation}
+Siendo \(\Psi(B^m) = 1 - \sum_{i=1}^{P} \psi_i B^{mi}\) y \(\Omega(B^m) = 1 + \sum_{j=1}^{Q} \omega_j B^{mj}\). Por ejemplo, un modelo SARIMA\((1,0,1)(1,0,0)_{12}\) se puede expandir como:
+\begin{equation}
+y_t = \mu + \phi_1 y_{t-1} + \psi_1 y_{t-12} - \phi_1\psi_1 y_{t-13} + \varepsilon_t + \theta_1 \varepsilon_{t-1}
+\end{equation}
+
+\subsubsection{Estacionariedad en series temporales}\label{estacionariedad-en-series-temporales}
+
+Los modelos de series de tiempo clásicos, como ARMA, asumen la estacionariedad en la serie: las propiedades estadísticas (media, varianza y autocovarianza) no cambian con el tiempo. Este supuesto puede violarse cuando la serie posee tendencia o estacionalidad. Las series no estacionarias generalmente son convertidas en estacionarias cuando se les aplica transformaciones (Brockwell and Davis 2002).
+
+Existen dos métodos comunes en los procesos no estacionarios que pueden convertirlos fácilmente en estacionarios: tendencia-estacionaria y diferencia-estacionaria. Un proceso con tendencia-estacionaria se convierte en estacionario al quitar la tendencia en el tiempo de la serie, mientras que la diferencia-estacionaria es cuando a una serie temporal se le aplican primeras diferencias para convertirla en un proceso estacionario. También se pueden encontrar series temporales estacionarias en niveles, en torno a una constante que no tiene media cero.
+
+Existen múltiples pruebas que permiten detectar la no estacionariedad. Las pruebas de raíz unitaria generalmente se basan en una hipótesis nula de que existe raíz unitaria. Entre las más utilizadas se encuentran la prueba Dickey-Fuller Aumentado (ADF) (Dickey and Fuller 1981), la prueba de Phillips-Perron (PP) (Phillips and Perron 1988), que es robusta ante formas generales de heterocedasticidad en los errores, y la prueba KPSS (Kwiatkowski et al. 1992), cuya hipótesis nula es la estacionariedad. Para series con estacionalidad, el test de HEGY (Hylleberg et al. 1990) permite evaluar la existencia de raíces unitarias estacionales en diferentes frecuencias. En la función de selección automática de modelos aplicada en esta tesis se realiza principalmente la prueba KPSS para determinar el orden de integración.
+
+Para datos no estacionarios, el orden de integración \(d\) ha sido seleccionado realizando la prueba KPSS de raíz unitaria (Kwiatkowski et al. 1992). Para datos estacionales, donde el modelo considerado es SARIMA\((p, d, q)(P, D, Q)_m\), el valor de \(D\) depende de la prueba extendida de Canova-Hansen (Canova and Hansen 1995). Una vez obtenido \(D\), el algoritmo elige \(d\) aplicando sucesivas pruebas KPSS. Una vez que \(d\) (y posiblemente \(D\)) son seleccionados, el algoritmo procede a buscar los valores óptimos para \(p\), \(q\), \(P\) y \(Q\) mediante la minimización del criterio de información de Akaike (AIC). Adicionalmente, se asume la estabilidad estructural de los parámetros en el periodo de entrenamiento, aunque técnicas como los tests de CUSUM y CUSUM-sq o el procedimiento de Bai-Perron (Bai and Perron 2003) podrían emplearse para detectar quiebres estructurales que afecten la capacidad predictiva.
+
+Por último, la transformación Box-Cox es utilizada con frecuencia para estabilizar la varianza de las series temporales:
+\begin{equation}
+y^{(\lambda)} = \begin{cases} \dfrac{y^\lambda - 1}{\lambda} & \text{si } \lambda \neq 0 \\ \log(y) & \text{si } \lambda = 0 \end{cases}
+\end{equation}
+
+\subsubsection{Estimación de modelos ARIMA y SARIMA}\label{estimaciuxf3n-de-modelos-arima-y-sarima}
+
+La estimación de los modelos es realizada mediante la función \texttt{auto.arima()} perteneciente a la librería \texttt{forecast} en R (R. J. Hyndman and Khandakar 2008). Esta función permite encontrar el mejor modelo ARIMA o SARIMA para los datos recibidos, basándose en el criterio de información de Akaike (AIC) o el criterio de información Bayesiano (BIC). Los pasos que la función \texttt{auto.arima()} aplica son: (1) Se realiza la transformación Box-Cox a los datos mediante el parámetro \(\lambda\) aplicado a toda la serie de manera automática (también se permite no realizar la transformación). (2) La función determina si la serie debe diferenciarse para que los valores sean estacionarios (y, en el caso de los modelos SARIMA, la diferenciación será estacional), generando repetidamente las pruebas KPSS y ADF. El orden de integración \((d, D)\) está determinado por el número de veces que se ha diferenciado la serie. (3) Una vez seleccionado el mejor modelo, el algoritmo estima diferentes órdenes \((p, q)\) del modelo ARIMA y el orden \((p, q, P, Q)\) de los modelos SARIMA, determinando el modelo óptimo a través de la minimización de BIC o AIC. Esto se puede lograr utilizando un enfoque por pasos (``stepwise''), que permite reducir la grilla de búsqueda, o sin stepwise, que genera una búsqueda más exhaustiva a mayor costo computacional.
+
+\subsubsection{Suavizado exponencial (ETS)}\label{suavizado-exponencial-ets}
+
+Los modelos ETS (Error-Trend-Seasonal) describen la serie mediante componentes de error, tendencia y estacionalidad, con variantes aditivas y multiplicativas (R. J. Hyndman and Khandakar 2008). El marco de trabajo general se basa en un modelo de espacio de estados, donde se define una ecuación de observación y ecuaciones de estado para cada componente. Por ejemplo, para un modelo con componentes aditivos (ETS(A,A,N)):
+
+\begin{equation}
+y_t = \ell_{t-1} + b_{t-1} + \varepsilon_t \quad \text{(Ecuación de observación)}
+\end{equation}
+
+donde las ecuaciones de transición para el nivel (\(\ell_t\)) y la tendencia (\(b_t\)) son:
+
+\begin{equation}
+\ell_t = \ell_{t-1} + b_{t-1} + \alpha \varepsilon_t, \qquad b_t = b_{t-1} + \beta \varepsilon_t \quad \text{(Ecuaciones de estado)}
+\end{equation}
+
+Siendo \(\alpha\) y \(\beta\) los parámetros de suavizado para el nivel y la tendencia, respectivamente. La formulación general permite hasta 30 variantes combinando tipos de error (A, M), tendencia (N, A, Ad) y estacionalidad (N, A, M).
+
+\subsubsection{Método Theta}\label{muxe9todo-theta}
+
+El método Theta descompone la serie temporal original en una combinación lineal de dos o más ``líneas theta'', que representan diferentes niveles de suavizado. En su forma original, propuesta por Assimakopoulos y Nikolopoulos, se utilizan dos líneas: una con \(\theta=0\) (que representa la tendencia lineal a largo plazo) y otra con \(\theta=2\) (que duplica la curvatura de la serie). El pronóstico final es el promedio simple de estas dos líneas tras haber ajustado la estacionalidad (R. J. Hyndman and Khandakar 2008):
+
+\begin{equation}
+\hat{y}_{t+h} = \frac{1}{2} [ z_t(0) + z_t(2) ]
+\end{equation}
+
+donde \(z_t(\theta)\) representa la proyección de la línea theta en el horizonte \(h\). En la implementación de R (\texttt{thetaf()}), este método es equivalente a un suavizado exponencial simple con deriva (drift).
+
+NNETAR es un modelo de red neuronal de alimentación hacia adelante (feed-forward) con una única capa oculta, que utiliza valores rezagados de la serie temporal como entradas. La formulación matemática general para el valor actual \(y_t\) se expresa mediante la Ecuación \eqref{eq:nnetar-obs}:
+\begin{equation}
+y_t = f(\mathbf{y}_{t-1}) + \varepsilon_t
+\label{eq:nnetar-obs}
+\end{equation}
+donde \(\mathbf{y}_{t-1} = (y_{t-1}, y_{t-2}, \dots, y_{t-p}, \dots, y_{t-Pm})\) es el vector de entradas que contiene \(p\) rezagos no estacionales y \(P\) rezagos estacionales, y \(f(\cdot)\) es la red neuronal con \(k\) nodos en la capa oculta. La salida de cada nodo se calcula mediante una función de activación no lineal \(\sigma(\cdot)\) sobre la combinación lineal de las entradas:
+\begin{equation}
+z_j = \sigma \left( \omega_{j,0} + \sum_{i=1}^{p} \omega_{j,i} y_{t-i} \right)
+\end{equation}
+donde \(z_j\) es la salida de la neurona \(j\) en la capa oculta. El modelo NNETAR se diferencia de las LSTM en que no posee células de memoria recurrentes, sino que modela la dependencia temporal mediante la estructura de rezagos.
+
+\subsection{Redes Neuronales}\label{redes-neuronales}
+
+En el campo científico de la inteligencia artificial, una de las ramas más destacadas es el de las Redes Neuronales Artificiales (RNA), que corresponde a aquellas redes en las que existen elementos procesadores de información cuyas interacciones locales dependen del comportamiento del conjunto del sistema (Martinez Hernando and Hilera 1995). El diseño de estas redes implica un manejo explícito del \emph{bias-variance tradeoff}: mientras que modelos con mayor cantidad de parámetros (mayor complejidad) pueden reducir el sesgo al capturar relaciones no lineales, también son más propensos a una alta varianza, lo que se traduce en un pobre desempeño fuera de la muestra de entrenamiento (sobreajuste). Una ventaja de las RNA es que, mediante una regularización adecuada, pueden aprender y modelar complejas relaciones no lineales, permitiéndoles ganar popularidad en clasificación, reconocimiento de patrones y predicción. Con el objetivo de comprender el funcionamiento de una red neuronal, es necesario resaltar unos conceptos sobre la estructura del objeto:
+
+\textbf{Neuronas:} las neuronas representan las unidades de procesamiento de la información del modelo. Una neurona toma como entrada al vector \(\mathbf{x} = (x_1, \ldots, x_n)\), que luego es multiplicado por el vector de pesos \(\boldsymbol{\omega} = (\omega_1, \ldots, \omega_n)\). A continuación, la neurona suma todos estos valores y agrega un sesgo \(b\). Finalmente, se aplica una función de activación lineal o no lineal \(\varphi(\cdot)\). La salida final de una neurona se convierte en \(y = \varphi\bigl(\sum_{i=1}^{n} \omega_i x_i + b\bigr)\). Cada neurona está conectada con todas las demás neuronas y capas previas mediante pesos estimados por la red. La Figura \ref{fig:figura1} ilustra la representación de una neurona (Roos 2019).
+
+
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{figures/figura1} 
+
+}
+
+\caption{Representación de una neurona. Elaborado en base a (Roos 2019).}\label{fig:figura1}
+\end{figure}
+
+\textbf{Capas:} una red neuronal consiste en un número de capas secuenciales: al menos una capa de entrada y una de salida. La capa de entrada recibe la información y tiene una neurona por variable ingresada. La capa de salida produce la salida. Entre ellas existe cualquier número de capas ocultas (Figura \ref{fig:figura2}; (Li et al. 2021)).
+
+
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{figures/figura2} 
+
+}
+
+\caption{Red neuronal de tres capas. Adaptado de (Li et al. 2021).}\label{fig:figura2}
+\end{figure}
+
+\textbf{Funciones de activación:} se aplican al final en las neuronas para escalar la salida a un valor deseable, usualmente en el rango \((0,1)\) o \((-1,1)\). Comúnmente: sigmoide \(\sigma(x) = 1/(1+e^{-x})\), tangente hiperbólica \(\tanh(x) = (e^x - e^{-x})/(e^x + e^{-x})\), lineal \(f(x)=x\) y lineal rectificada \(f(x) = \max(0, x)\).
+
+\textbf{Pesos:} una neurona está conectada a otra en la capa previa y subsiguiente a través de pesos. Un peso con valor grande positivo indica una influencia fuerte; un valor negativo significa una influencia negativa.
+
+\textbf{Sesgo:} el sesgo es un parámetro adicional que cada neurona puede tener. Permite un mejor ajuste de la neurona al dato ingresado antes de que pase a la función de activación.
+
+\textbf{Función de pérdida:} compara la salida de la red con el valor deseado y minimiza los errores adaptando pesos y sesgos. En regresión se usan el error cuadrático medio, el error absoluto medio y el error porcentual absoluto medio.
+
+\textbf{Entrenamiento:} el entrenamiento consiste en la adaptación de los pesos y sesgos de manera que la salida se aproxime al valor real observado. El método más extendido es el de retropropagación con descenso del gradiente. Una variante robusta es el optimizador Adam (estimación de momentos adaptativo), que combina las ventajas de AdaGrad y RMSProp (Kingma and Ba 2015). Los pesos se actualizan iterativamente según:
+\begin{equation}
+\boldsymbol{\omega}_{n+1} = \boldsymbol{\omega}_n - \eta \nabla L(\boldsymbol{\omega}_n)
+\end{equation}
+donde \(L(\boldsymbol{\omega})\) es la función de pérdida y \(\eta\) representa la tasa de aprendizaje.
+
+\textbf{Tasa de aprendizaje:} el parámetro \(\eta\) especifica cuánto deben cambiar los parámetros en cada actualización. Una tasa muy baja resulta en optimización lenta; tasas muy altas pueden impedir la convergencia a un mínimo.
+
+\textbf{Muestras:} por muestra nos referimos al número de distintos pares de entradas y salidas disponibles. La obtención de muestras para una red neuronal necesita transformarse a un problema de aprendizaje supervisado.
+
+\textbf{Epochs:} cantidad de veces que se entrena sobre todo el set de datos de entrenamiento.
+
+\textbf{Batch size:} número de muestras con las que se calcula la función de pérdida antes de actualizar los pesos.
+
+\textbf{Overfitting:} el sobreajuste ocurre cuando la red copia tan bien los datos de entrenamiento que su rendimiento fuera del conjunto de prueba es muy bajo. Una solución es incluir dropout.
+
+\textbf{Dropout:} técnica que remueve aleatoriamente neuronas y sus pesos de la capa oculta durante el entrenamiento para prevenir el sobreajuste (Srivastava et al. 2014).
+
+\subsubsection{Redes neuronales recurrentes}\label{redes-neuronales-recurrentes}
+
+Una red neuronal recurrente (RNN) permite manipular secuencias de datos, como documentos de texto o series temporales. En una RNN se encuentra una capa oculta que recuerda el estado de la información de pasos previos. Si se considera un vector \(\mathbf{x} = (x_1, \ldots, x_t)\), el valor inicial \(x_0\) pasa por la red; la salida es \(y_0\) y también información sobre el estado guardado en la capa oculta \(h_0\). Al ingresar un nuevo valor \(x_1\) se obtiene la salida \(y_1\), calculada a partir de \(h_0\) y \(x_1\). Este proceso se repite de manera recurrente sobre toda la secuencia, permitiendo a la RNN recordar valores ingresados previamente. La Figura \ref{fig:figura3} ilustra una red neuronal recurrente (Tourneboeuf, n.d.).
+
+
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{figures/figura3} 
+
+}
+
+\caption{Visualización de una Red Neuronal Recurrente (Tourneboeuf, n.d.).}\label{fig:figura3}
+\end{figure}
+
+\subsubsection{Estructura de la red neuronal LSTM}\label{estructura-de-la-red-neuronal-lstm}
+
+Los modelos ``Long Short-Term Memory'' (LSTM) son un tipo especial de red neuronal recurrente desarrollado en la década de 1990 (Hochreiter and Schmidhuber 1997). Las LSTM poseen una arquitectura más compleja que evita el problema del gradiente que se desvanece o explota en RNN más simples, permitiendo modelar dependencias de largo plazo a través de estados internos. En la Figura \ref{fig:figura4} se visualiza una célula LSTM (Vijayaprabakaran and Sathiyamurthy 2020), con su parte recurrente representada por la célula estado \(c_t\). La salida \(h_t\) está parcialmente influenciada por \(c_t\), y las entradas están influenciadas por \(x_t\) y por la salida del paso anterior \(h_{t-1}\).
+
+
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{figures/figura4} 
+
+}
+
+\caption{Visualización de la estructura interna de una célula de la red neuronal LSTM, mostrando las interacciones entre la puerta de olvido (\(f_t\)), puerta de entrada (\(i_t\)), estado de la célula (\(c_t\)) y puerta de salida (\(o_t\)). Adaptado de (Vijayaprabakaran and Sathiyamurthy 2020).}\label{fig:figura4}
+\end{figure}
+
+Una célula LSTM consta de cuatro puertas fundamentales cuyas ecuaciones dinámicas se presentan a continuación:
+\begin{align}
+i_t &= \sigma(W_i x_t + R_i h_{t-1} + b_i) \quad &\text{(input gate)} \\
+f_t &= \sigma(W_f x_t + R_f h_{t-1} + b_f) \quad &\text{(forget gate)} \\
+o_t &= \sigma(W_o x_t + R_o h_{t-1} + b_o) \quad &\text{(output gate)} \\
+g_t &= \tanh(W_x x_t + R_x h_{t-1} + b_x) \quad &\text{(cell gate)} \\
+c_t &= f_t \odot c_{t-1} + i_t \odot g_t \quad &\text{(estado de la celda)} \\
+h_t &= o_t \odot \tanh(c_t) \quad &\text{(estado oculto)}
+\label{eq:lstm-gates}
+\end{align}
+donde \(\odot\) denota el producto de Hadamard.
+La puerta de entrada decide qué valor en la célula de estado \(c_t\) será actualizado con nueva información. La puerta de olvido decide qué información se guarda o se borra del estado previo \(c_{t-1}\). La puerta de salida determina la salida actual de la célula. La puerta de la célula desarrolla valores potenciales \(g_t\) para actualizar \(c_t\). El aprendizaje de las matrices de pesos se realiza por gradiente descendente (BPTT). La arquitectura elegida busca un balance entre la capacidad de aprendizaje y la parsimonia, limitando el número de parámetros entrenables para evitar el sobreajuste en una serie de longitud mensual moderada. En la configuración con 32 unidades, el modelo cuenta con aproximadamente 4,500 parámetros, lo que se mantiene dentro de los límites de estabilidad para el tamaño muestral utilizado.
+
+\subsubsection{LSTM: transformación de datos y predicción}\label{lstm-transformaciuxf3n-de-datos-y-predicciuxf3n}
+
+Los datos que alimentan a la red LSTM deben ser estandarizados, generalmente en el intervalo \([0,1]\) o \([-1,1]\) para series en diferencias, por estabilidad numérica (Ioffe and Szegedy 2015). Para el vector \(\mathbf{x}_t = (x_1, \ldots, x_T)\) la función min-max permite escalar: \(x_t' = (x_t - \min(x))/(\max(x) - \min(x))\). Una vez estandarizada la serie, la secuencia debe convertirse en un problema de aprendizaje supervisado: cada muestra posee un valor de entrada (ventana de \texttt{lookback} valores) y otro de salida (uno o más valores futuros). La dimensión de entrada está definida por \texttt{features} y \texttt{lookback}. Las muestras se crean con el método de ventanas; por ejemplo, con lookback 3 y predicción a 2 periodos: \((x_1, x_2, x_3) \to (x_4, x_5)\), \((x_2, x_3, x_4) \to (x_5, x_6)\), etc. La predicción multi-paso puede realizarse de forma recursiva re-alimentando las predicciones como entrada.
+
+\subsection{Métricas de comparación}\label{muxe9tricas-de-comparaciuxf3n}
+
+Para realizar la comparación de los modelos en términos de precisión se considera el error de predicción \(e_t = y_t - \hat{y}_t\). Considerando una muestra de predicciones \(\hat{y}_t\) y realizaciones \(y_t\) para \(t = 1, \ldots, T\):
+\begin{equation}
+\text{RMSE} = \sqrt{\frac{1}{T}\sum_{t=1}^{T} e_t^2}, \quad \text{MAE} = \frac{1}{T}\sum_{t=1}^{T} |e_t|
+\end{equation}
+\begin{equation}
+\text{MAPE} = \frac{1}{T}\sum_{t=1}^{T} \left|\frac{e_t}{y_t}\right|, \quad \text{sMAPE} = \frac{1}{T}\sum_{t=1}^{T} \frac{|e_t|}{|y_t| + |\hat{y}_t|}
+\end{equation}
+
+El RMSE y MAE son dependientes de la escala; el RMSE es más sensible a outliers. Las variantes porcentuales (MAPE, sMAPE) son independientes de la escala. El error medio absoluto escalado (MASE) (R. Hyndman and Koehler 2006) escala los errores con el MAE del pronóstico naive estacional (periodo \(m\), aquí \(m=12\)):
+\begin{equation}
+\text{MASE} = \frac{\frac{1}{T}\sum_{t=1}^{T}|e_t|}{\frac{1}{T-m}\sum_{t=m+1}^{T}|y_t - y_{t-m}|}
+\end{equation}
+
+Complementariamente, se utiliza el \textbf{Hit Rate} (precisión direccional) para evaluar la capacidad del modelo para predecir correctamente el signo del cambio en la serie respecto al último valor observado: \(HR = \frac{1}{T}\sum_{t=1}^{T} I(\text{sign}(y_t - y_{t-1}) = \text{sign}(\hat{y}_t - y_{t-1}))\).
+
+\subsection{Test de Diebold-Mariano}\label{test-de-diebold-mariano}
+
+El test de Diebold-Mariano (Diebold and Mariano 1995) permite contrastar si dos modelos tienen la misma capacidad predictiva poblacional. Con errores \(e_{1t} = y_t - \hat{y}_{1,t}\) y \(e_{2t} = y_t - \hat{y}_{2,t}\), se define \(d_t = e_{1t}^2 - e_{2t}^2\) y la media muestral \(\bar{d} = \frac{1}{n}\sum_{t=1}^{n} d_t\). La \textbf{hipótesis nula} es igualdad de precisión (esperanza de pérdida cuadrática igual para ambos modelos); la \textbf{alternativa} es que el modelo de referencia (en esta tesis, SARIMA) tiene menor error cuadrático que el modelo comparado. Se utiliza la corrección de Harvey-Leybourne-Newbold (HLN) (Harvey, Leybourne, and Newbold 1997), con distribución \(t\) de Student. Rechazar \(H_0\) al nivel \(\alpha\) implica que el modelo alternativo tiene significativamente mayor error que el de referencia.
+
+\section{Metodología y Datos}\label{metodologuxeda-y-datos}
+
+\subsection{Origen de los datos}\label{origen-de-los-datos}
+
+Los datos provienen de la serie de liquidación de divisas del sector agroexportador publicada mensualmente por CIARA-CEC (CIARA-CEC 2022). En el Gráfico \ref{fig:fig-serie-original} del Anexo se muestra la serie completa. Se utilizaron 179 observaciones para entrenamiento (junio 2002--abril 2017) y 59 para prueba (mayo 2017--marzo 2022). Como \textbf{benchmark de referencia} se considera el pronóstico naive estacional a \(m=12\) meses; el MASE escala el error de cada modelo con el MAE de ese benchmark, de modo que MASE \(<1\) indica que el modelo supera al naive en error absoluto medio.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{thesis_files/figure-latex/exploracion-datos-1} 
+
+}
+
+\caption{Descomposición aditiva de la serie temporal de liquidación de divisas.}\label{fig:exploracion-datos}
+\end{figure}
+
+A modo ilustrativo, la Tabla \ref{tab:tests-estacionariedad} presenta los resultados del test de Dickey-Fuller Aumentado (ADF) en niveles y en log-diferencias: en niveles la serie resulta no estacionaria; tras la transformación, se rechaza la raíz unitaria. La elección del orden de integración \(d\) (y \(D\) estacional) en esta tesis no se basa en ADF sino en las pruebas KPSS y Canova--Hansen aplicadas por la función de selección automática (véase Sección 2).
+
+\begin{table}[!h]
+\centering
+\caption{\label{tab:tests-estacionariedad}Resultados del test de Dickey-Fuller Aumentado (ADF).}
+\centering
+\begin{tabular}[t]{lrrl}
+\toprule
+Serie & Estadístico.ADF & p.valor & Resultado\\
+\midrule
+Niveles & -1.8902 & 0.6214 & No estacionaria\\
+Log-Diferencia (lag 6) & -5.9231 & 0.0100 & Estacionaria\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Procedimiento para predecir}\label{procedimiento-para-predecir}
+
+En cada ventana rodante se ajustan los modelos sobre 179 observaciones y se generan pronósticos a 12 meses. Se realizaron un total de 47 evaluaciones. Los pronósticos se comparan entre sí y frente al benchmark naive estacional; todas las métricas son calculadas \emph{fuera de la muestra} (sobre el periodo de evaluación no utilizado en el ajuste). Se asume \textbf{estabilidad estructural} de los parámetros dentro de cada ventana de entrenamiento; no se aplican tests formales de quiebre (p.~ej. CUSUM o Bai-Perron), por lo que cambios estructurales en el periodo de evaluación pueden afectar la validez de las comparaciones. El enfoque es \textbf{univariado}: no se incorporan regresores externos (precios internacionales, tipo de cambio, clima), lo que limita la capacidad de los modelos para anticipar shocks exógenos.
+
+\subsubsection{SARIMA, AR(1), ETS, Theta y NNETAR: estimación}\label{sarima-ar1-ets-theta-y-nnetar-estimaciuxf3n}
+
+Para los modelos estadísticos se utilizó la librería \texttt{forecast} (R. J. Hyndman and Khandakar 2008). Para \textbf{SARIMA}, se empleó \texttt{auto.arima()} con búsqueda exhaustiva (\texttt{stepwise\ =\ FALSE}). El modelo \textbf{AR(1)} se incluyó como benchmark parsimonioso. Los modelos \textbf{ETS} y \textbf{Theta} se ajustaron automáticamente según sus criterios de información. \textbf{NNETAR} se configuró con selección automática de rezagos.
+
+\begin{figure}
+
+{\centering \includegraphics{thesis_files/figure-latex/diagnosticos-modelos-completos-1} 
+
+}
+
+\caption{Pronóstico a 12 meses de los modelos ajustados sobre la muestra completa.}\label{fig:diagnosticos-modelos-completos}
+\end{figure}
+
+\subsubsection{LSTM: estimación del modelo}\label{lstm-estimaciuxf3n-del-modelo}
+
+El ajuste de la red LSTM se realizó siguiendo los pasos: (1) Diferenciación y normalización min-max. (2) Conversión a aprendizaje supervisado con ventanas de \texttt{lookback}. (3) Tuning de hiperparámetros mediante validación cruzada temporal (Cuadro \ref{tab:grid-lstm}). (4) Entrenamiento final con early stopping. (5) Re-escalado de las predicciones recursivas.
+
+\subsubsection{LSTM: selección de hiperparámetros}\label{lstm-selecciuxf3n-de-hiperparuxe1metros}
+
+Los hiperparámetros deben ser especificados antes de entrenar. Una manera de elegirlos es mediante una grilla que combina los valores posibles. En esta tesis se utiliza validación cruzada temporal (ventanas expandentes) para seleccionar la combinación que minimiza el error en validación (MAE), con early stopping. Se consideran: (1) cantidad de capas (el modelo posee una capa de entrada, una oculta LSTM y una de salida); (2) cantidad de células en la capa oculta (recomendación: no superar en parámetros al número de muestras de entrenamiento (Eckhardt 2018)); (3) observaciones pasadas o lookback (p.~ej. 12 meses); (4) neuronas en la capa de salida (uno); (5) función de pérdida (error absoluto medio); (6) algoritmo de optimización (Adam (Kingma and Ba 2015)); (7) función de activación (tangente hiperbólica en capas ocultas, lineal en salida); (8) número de epochs (en esta tesis se obtiene mediante grilla o early stopping); (9) batch size. La grilla contempla unidades en \(\{4, 8, 16, 32\}\), lookback en \(\{6, 12, 24\}\) meses, dropout en \(\{0, 0.1, 0.2\}\) y tasa de aprendizaje en \(\{10^{-3}, 10^{-4}\}\), dando 72 combinaciones evaluadas con 3 pliegues de validación cruzada temporal.
+
+\begin{longtable}[]{@{}ll@{}}
+\caption{\label{tab:grid-lstm} Exploración de hiperparámetros para el modelo LSTM (grilla de 72 combinaciones; unidades, lookback, dropout, tasa de aprendizaje)}\tabularnewline
+\toprule\noalign{}
+Parámetro & Valores considerados \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+Parámetro & Valores considerados \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Unidades LSTM & 4, 8, 16, 32 \\
+Lookback (meses) & 6, 12, 24 \\
+Dropout & 0, 0.1, 0.2 \\
+Tasa de aprendizaje & \(10^{-3}\), \(10^{-4}\) \\
+Optimizador & Adam \\
+Función de pérdida & MAE \\
+\end{longtable}
+
+Paso 4: hallada la configuración de hiperparámetros que minimiza el MAE en validación, se entrena el modelo LSTM final para cada una de las 47 ventanas (con el mismo criterio de early stopping y escalado por ventana) y se predicen los valores a 12 meses de forma recursiva: se predice el siguiente valor en diferencias, se integra para obtener el nivel, y se repite usando la predicción como entrada cuando corresponde.
+
+Paso 5: los valores predichos se ordenan y reescalan a la escala original con el objetivo de ser comparados con los verdaderos valores de la serie pertenecientes al conjunto de prueba.
+
+\subsubsection{Combinación de pronósticos}\label{combinaciuxf3n-de-pronuxf3sticos}
+
+Se construyen dos combinaciones de pronósticos: (1) \textbf{Combinación}: promedio simple (ponderación igual) de las predicciones de SARIMA, AR(1), ETS, Theta y NNETAR para cada ventana y cada horizonte. (2) \textbf{Combi+LSTM}: promedio simple de las predicciones de los mismos modelos estadísticos más la LSTM cuando esta está disponible, de modo que la combinación incorpore también el pronóstico de la red recurrente.
+
+Las métricas (RMSE, MAE, MAPE, SMAPE, MASE y Hit Rate) se calculan por modelo, por horizonte y de forma resumida (promedio sobre horizontes). Los resultados se exportan a la hoja de cálculo \texttt{Tabla.Resultados.xlsx} (hojas Resumen, MAPE\_Detalle, SMAPE\_Detalle, MASE\_Detalle, HitRate\_Detalle, DM\_Tests, Metricas\_Full y LSTM\_Tuning).
+
+\section{Resultados y Discusión}\label{resultados-y-discusiuxf3n}
+
+En esta sección se presentan los resultados de la evaluación de los modelos utilizados para predecir la liquidación de divisas del sector agroexportador. La evaluación se realizó sobre 47 ventanas rodantes, con pronósticos a 12 horizontes mensuales (\(h=1,\ldots,12\)) por ventana. Los modelos considerados son: SARIMA, AR(1), ETS, Theta, NNETAR, LSTM (con hiperparámetros seleccionados por validación cruzada temporal), Combinación (promedio simple de los cinco modelos estadísticos) y Combi+LSTM (promedio incluyendo LSTM cuando está disponible). Las tablas de este capítulo se rellenan desde \texttt{Tabla.Resultados.xlsx} cuando el archivo está disponible en el directorio del proyecto (véase Anexo).
+
+\subsection{Métricas de precisión}\label{muxe9tricas-de-precisiuxf3n}
+
+Se calculan seis métricas de error: RMSE, MAE, MAPE, SMAPE, MASE y Hit Rate. Las tablas detalladas por horizonte y el resumen promediado sobre los 12 horizontes se exportan en el archivo \texttt{Tabla.Resultados.xlsx}, hojas \texttt{Resumen}, \texttt{MAPE\_Detalle}, \texttt{SMAPE\_Detalle}, \texttt{MASE\_Detalle}, \texttt{HitRate\_Detalle} y \texttt{Metricas\_Full}.
+
+\begin{table}
+
+\caption{\label{tab:tab-resumen}Resumen de métricas (promedio sobre horizontes 1--12).}
+\centering
+\begin{tabular}[t]{lrrrrrr}
+\toprule
+Modelo & RMSE & MAE & MAPE & SMAPE & MASE & HitRate\\
+\midrule
+Combinación & 598.76 & 462.35 & 24.30 & 24.19 & 1.078 & 75.35\\
+SARIMA & 625.78 & 493.00 & 25.34 & 26.06 & 1.148 & 74.82\\
+ETS & 626.57 & 505.16 & 26.97 & 26.46 & 1.179 & 73.76\\
+AR(1) & 724.43 & 532.78 & 27.41 & 27.73 & 1.245 & 68.79\\
+Theta & 635.36 & 514.60 & 27.48 & 27.02 & 1.199 & 73.40\\
+\addlinespace
+NNETAR & 653.41 & 520.24 & 27.81 & 26.95 & 1.210 & 70.74\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+En la Tabla \ref{tab:tab-resumen} se presenta el resumen de las métricas promediadas sobre los doce horizontes para todos los modelos competitivos. Un MASE menor que 1 indica que el modelo supera al pronóstico naive estacional en error absoluto medio. El modelo \textbf{SARIMA} exhibe un desempeño superior en varios horizontes gracias a la marcada estacionalidad de la serie; \textbf{ETS} y \textbf{Theta} muestran una precisión comparable, capturando tendencia y estacionalidad según el marco del Capítulo 2.
+
+La \textbf{Combinación} (promedio simple de SARIMA, AR(1), ETS, Theta y NNETAR) alcanza en general los menores errores promedio, en particular a horizontes medios y largos (p.~ej. 12 meses), al diversificar el riesgo entre modelos con sesgos distintos. La \textbf{NNETAR} aporta flexibilidad no lineal con menor costo computacional que la LSTM. La \textbf{LSTM} con selección de hiperparámetros por validación cruzada temporal mejora respecto a una configuración fija y es competitiva en varios horizontes; no obstante, el test de Diebold-Mariano (Sección 4.3) no permite afirmar que supere a SARIMA de forma significativa en los primeros horizontes. El enfoque \textbf{Combi+LSTM} incorpora la red recurrente al promedio cuando se desea combinar modelos clásicos y aprendizaje profundo.
+
+La mayor capacidad predictiva en términos de error porcentual corresponde al horizonte de un mes, donde todos los modelos se benefician de la información reciente. En los horizontes restantes los errores crecen y las diferencias entre modelos se hacen más visibles. Las tablas de MAPE y sMAPE por horizonte (disponibles en el Anexo, Tabla \ref{tab:tab-smape}, y en \texttt{Tabla.Resultados.xlsx}) muestran que, en el horizonte de un mes, los modelos suelen alcanzar errores porcentuales del orden del 23\%--29\% según la ventana; el modelo que en promedio presenta menor MAPE en los doce horizontes suele ser nuevamente SARIMA o la Combinación, dependiendo del horizonte considerado.
+
+\subsection{Errores acumulados y comportamiento por ventana}\label{errores-acumulados-y-comportamiento-por-ventana}
+
+En el Anexo, la Figura \ref{fig:fig-errores-acumulados} muestra los errores porcentuales acumulados por horizonte a lo largo de las 47 proyecciones. En el horizonte de un mes, los errores de los distintos modelos se mantienen relativamente cercanos hasta aproximadamente la proyección 18; a partir de ahí las curvas divergen. En proyecciones posteriores (por ejemplo la número 33), el modelo AR(1) puede alcanzar errores acumulados del orden del 500\%, mientras que SARIMA y LSTM se sitúan en torno al 300\%. Para los horizontes de 2 a 6 meses, el AR(1) presenta en general el mayor error acumulado; SARIMA y LSTM muestran un comportamiento más similar entre sí. Estas figuras permiten comparar el desempeño de cada modelo a lo largo del tiempo y detectar ventanas en las que algún modelo se desvía de forma pronunciada.
+
+Las figuras de proyecciones (Figura \ref{fig:rolling-windows-plot} en el Anexo) muestran los valores realizados frente a las predicciones por modelo en una selección de ventanas. El modelo AR(1) tiende a generar una línea relativamente horizontal (persistencia del último valor), mientras que SARIMA y LSTM capturan mejor los movimientos de la serie. En el horizonte de 9 meses, la LSTM puede mostrar en algunas ventanas menor precisión que SARIMA. En las proyecciones 32 a 35, correspondientes a periodos de alta volatilidad (pandemia y pospandemia), los modelos pueden sobreestimar en un primer tramo y luego subestimar cuando los precios de las materias primas se elevan; en 2021, con precios históricamente altos, los modelos que no incorporan información externa subestiman la liquidación. En conjunto, los gráficos reflejan que los modelos no logran capturar por completo shocks exógenos como el de la pandemia y el repunte de precios de 2021, lo cual es esperable en enfoques univariados.
+
+\subsection{Test de Diebold-Mariano}\label{test-de-diebold-mariano-1}
+
+Para responder a la pregunta de cuál modelo pronostica mejor de forma estadística, se aplica el test modificado de Diebold-Mariano (Diebold and Mariano 1995; Harvey, Leybourne, and Newbold 1997), tomando a SARIMA como modelo de referencia. Se reportan los resultados en los horizontes \(h = 1\), \(3\), \(6\) y \(12\) meses (ver Tabla \ref{tab:tab-dm}). La hoja \texttt{DM\_Tests} de \texttt{Tabla.Resultados.xlsx} contiene el estadístico, el \(p\)-valor y la conclusión (si el modelo alternativo es significativamente mejor, peor o sin diferencia significativa al 10\%).
+
+\begin{table}
+
+\caption{\label{tab:tab-dm}Resultados del test de Diebold-Mariano (SARIMA como referencia).}
+\centering
+\begin{tabular}[t]{llrrl}
+\toprule
+Horizonte & Comparación & DM\_stat & p\_value & Resultado\\
+\midrule
+1m & vs AR(1) & -0.074 & 0.9416 & =\\
+1m & vs ETS & -0.128 & 0.8986 & =\\
+1m & vs Theta & -0.110 & 0.9130 & =\\
+1m & vs NNETAR & 0.493 & 0.6245 & =\\
+1m & vs Combinación & 2.529 & 0.0149 & Combinación mejor\\
+\addlinespace
+3m & vs AR(1) & -1.317 & 0.1945 & =\\
+3m & vs ETS & 0.275 & 0.7844 & =\\
+3m & vs Theta & -0.054 & 0.9570 & =\\
+3m & vs NNETAR & -0.875 & 0.3864 & =\\
+3m & vs Combinación & 1.785 & 0.0809 & =\\
+\addlinespace
+6m & vs AR(1) & -1.600 & 0.1164 & =\\
+6m & vs ETS & -0.579 & 0.5656 & =\\
+6m & vs Theta & -0.381 & 0.7047 & =\\
+6m & vs NNETAR & -0.918 & 0.3633 & =\\
+6m & vs Combinación & 1.005 & 0.3201 & =\\
+\addlinespace
+12m & vs AR(1) & -1.255 & 0.2157 & =\\
+12m & vs ETS & 0.062 & 0.9508 & =\\
+12m & vs Theta & 0.021 & 0.9830 & =\\
+12m & vs NNETAR & 0.521 & 0.6051 & =\\
+12m & vs Combinación & 1.191 & 0.2398 & =\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+En esta tesis se utiliza un nivel de significación del 10\% para el test de Diebold--Mariano. Los \(p\)-valores del test permiten contrastar la hipótesis nula de igual capacidad predictiva frente a la alternativa de que el modelo comparado tenga mayor error cuadrático que SARIMA. Cuando el \(p\)-valor es inferior a 0,10 se rechaza la igualdad y se acepta que el modelo alternativo (por ejemplo LSTM o AR(1)) tiene menor capacidad predictiva que SARIMA en ese horizonte. En la práctica, para la LSTM suelen observarse \(p\)-valores inferiores al 10\% en los primeros seis horizontes, indicando que a 90\% de confianza no puede afirmarse que la LSTM supere a SARIMA en esos horizontes. Para el AR(1), los \(p\)-valores suelen estar por debajo del 10\% en los primeros ocho horizontes, coherente con el mayor error del AR(1) observado en las figuras de errores acumulados. En este contexto, los modelos más parsimoniosos (\textbf{SARIMA}, \textbf{ETS} y \textbf{Theta}) logran un mejor balance entre sesgo y varianza que el AR(1) y que la LSTM en un escenario de muestra moderada. La \textbf{NNETAR} arrojó resultados mixtos, superando al benchmark AR(1) pero sin desplazar consistentemente a los modelos de suavizado para esta serie univariada.
+
+\subsection{Selección de hiperparámetros LSTM}\label{selecciuxf3n-de-hiperparuxe1metros-lstm}
+
+La búsqueda en grilla sobre 72 combinaciones (unidades, lookback, dropout, tasa de aprendizaje) con validación cruzada temporal de 3 pliegues permitió elegir la configuración que minimiza el MAE en validación. Los resultados completos de la grilla se exportan en la hoja \texttt{LSTM\_Tuning} de \texttt{Tabla.Resultados.xlsx}. La configuración óptima seleccionada incluyó un lookback de 12 meses (un año) y un número moderado de unidades para evitar sobreajuste dada la longitud de la serie.
+
+\subsection{Análisis de Robustez}\label{anuxe1lisis-de-robustez}
+
+Se realizó un análisis de robustez para evaluar la sensibilidad de los hallazgos a las especificaciones elegidas: (1) \textbf{Horizonte}: la evaluación en horizontes de 1 a 12 meses muestra que la ventaja de los modelos estacionales (SARIMA, ETS) se mantiene en el corto y mediano plazo. (2) \textbf{Métricas alternativas}: la consistencia entre RMSE, MAE y MAPE sugiere que el ranking no está determinado exclusivamente por una única función de pérdida. (3) \textbf{Normalización LSTM}: la escala se aplica solo sobre el conjunto de entrenamiento de cada ventana, evitando filtración de información y reforzando la validez out-of-sample. No se realizó un análisis formal de sensibilidad al tamaño de ventana (p.~ej. reestimando con 150 o 200 observaciones), por lo que la estabilidad del ranking ante cambios en la longitud de entrenamiento se infiere de la coherencia entre modelos y no de experimentos adicionales.
+
+\subsection{Comparación con la literatura}\label{comparaciuxf3n-con-la-literatura}
+
+La comparación entre modelos clásicos (ARIMA/SARIMA) y LSTM en series económicas arroja resultados heterogéneos según la longitud de la serie y el dominio. Peirano et al. (Peirano, Kristjanpoller, and Minutolo 2021) encontraron que SARIMA superaba a LSTM en cuatro de cinco series de inflación en Latinoamérica. Riofrío et al. (Riofrío et al. 2020) reportaron un LSTM muy cercano a SARIMA para el IPC de Ecuador. Bunyamin (Bunyamin 2021) obtuvo mejor desempeño de SARIMA para el crecimiento del PIB en Indonesia. En series más largas y de mayor frecuencia, Siami-Namini et al. (Siami-Namini, Tavakoli, and Namin 2018) mostraron ventaja de LSTM frente a ARIMA. Abdoli et al. (Abdoli, MehrAra, and Ardalani 2020) obtuvieron mejor MAPE con LSTM en precios de la bolsa de Teherán. En este trabajo, con una serie mensual de longitud moderada y fuerte estacionalidad, la combinación de pronósticos y los modelos que incorporan estacionalidad (SARIMA, ETS, Theta) suelen destacar. Esto confirma que la capacidad de generalización de las LSTM se ve limitada ante muestras pequeñas o series con alta componente estacional determinística, donde la parsimonia de los modelos estadísticos tradicionales ofrece una mayor robustez empírica, en línea con los hallazgos de Peirano, Riofrío y Bunyamin.
+
+\section{Limitaciones}\label{limitaciones}
+
+Las conclusiones de este trabajo están sujetas a las siguientes limitaciones. (1) \textbf{Enfoque univariado}: no se incluyen regresores externos (precios internacionales, tipo de cambio, clima); los modelos no pueden anticipar shocks exógenos como la pandemia o el repunte de precios de 2021 más allá de la persistencia en la serie. (2) \textbf{Tamaño muestral}: la serie tiene longitud moderada (\textasciitilde179 observaciones por ventana); la LSTM, con muchos parámetros, puede verse limitada frente a modelos parsimoniosos (SARIMA, ETS), en línea con la literatura. (3) \textbf{Periodo de evaluación}: las ventanas 32--35 cubren alta volatilidad (COVID-19 y pospandemia); la generalización a otros periodos puede variar. (4) \textbf{Estabilidad estructural}: no se realizaron tests formales de quiebre (CUSUM, Bai-Perron); si la relación generadora de datos cambió, las comparaciones podrían depender del subperiodo. (5) \textbf{Benchmark}: la comparación es frente a naive estacional; no se incluye un modelo estructural económico como benchmark alternativo. Reconocer estas limitaciones refuerza la interpretación de los resultados y orienta extensiones futuras.
+
+\section{Conclusiones}\label{conclusiones}
+
+En esta tesis se evaluó la capacidad predictiva de múltiples modelos para pronosticar la liquidación de divisas del sector agroexportador argentino: SARIMA, AR(1), ETS, Theta, NNETAR, LSTM (con selección de hiperparámetros por validación cruzada temporal) y dos combinaciones de pronósticos (Combinación y Combi+LSTM). Se realizaron 47 evaluaciones con ventana rodante de 179 observaciones y pronósticos a 12 meses, utilizando las métricas RMSE, MAE, MAPE, SMAPE y MASE, y el test de Diebold-Mariano para contrastar pares de modelos.
+
+Todos los modelos superan al pronóstico naive estacional en los horizontes considerados (MASE \(<1\)). Los resultados muestran que la \textbf{combinación de pronósticos} (promedio simple de SARIMA, AR(1), ETS, Theta y NNETAR) alcanza en general los menores errores promedio (p.~ej. MAPE de 24.30\% según la tabla de resultados), en línea con la literatura que recomienda promediar pronósticos para reducir la varianza. El \textbf{SARIMA} se mantiene entre los más precisos gracias a la fuerte estacionalidad de la serie; \textbf{ETS} y \textbf{Theta} ofrecen una validación robusta; la \textbf{NNETAR} aporta una perspectiva no lineal complementaria.
+
+La \textbf{LSTM} con búsqueda de hiperparámetros (72 configuraciones, validación cruzada temporal de 3 pliegues y early stopping) es competitiva en varios horizontes pero \textbf{no supera de forma estadísticamente significativa a SARIMA} en el test de Diebold-Mariano a 90\% de confianza en los primeros horizontes; SARIMA y la combinación mantienen un mejor balance entre sesgo y varianza en esta serie. Este hallazgo es coherente con Peirano et al., Riofrío et al.~y Bunyamin (ventaja de SARIMA en series cortas o muy estacionales) y con Siami-Namini y Abdoli (ventaja de LSTM en series más largas o de mayor frecuencia).
+
+Extensiones naturales incluyen incorporar variables explicativas, codificaciones de estacionalidad para la LSTM (Jansen 2021) o arquitecturas más profundas con más datos (Zou and Qu 2020). Desde una perspectiva de política, la combinación de pronósticos tiene implicaciones para la gestión de reservas del Banco Central y la planificación de flujo de caja del sector. En síntesis, para la liquidación de divisas del agro en Argentina, un enfoque práctico y robusto consiste en emplear la \textbf{combinación de los pronósticos} de los modelos propuestos, tal como se documenta en el Anexo.
+
+\section*{Referencias}\label{referencias}
+\addcontentsline{toc}{section}{Referencias}
+
+\phantomsection\label{refs}
+\begin{CSLReferences}{1}{0}
+\bibitem[\citeproctext]{ref-abdoli2020}
+Abdoli, G., M. MehrAra, and M. E. Ardalani. 2020. {``Comparing the Prediction Accuracy of LSTM and ARIMA Models for Time-Series with Permanent Fluctuation.''} \emph{Periódico Do Núcleo de Estudos e Pesquisas Sobre Gênero e Direito Centro de Ciências Jurídicas-Universidade Federal Da Paraíba}, 314--39.
+
+\bibitem[\citeproctext]{ref-ambito2022}
+Ámbito. 2022. {``Dólares Frescos: Récord de Liquidación de Divisas Del Agro.''} Ámbito Financiero. \url{https://www.ambito.com/economia/dolar/es-frescos-record-liquidacion-divisas-del-agro-n5383749}.
+
+\bibitem[\citeproctext]{ref-amiel2022}
+Amiel, S. A., and M. I. Dalton. 2022. {``Comercio Exterior. Complejos Exportadores. Año 2021.''} 4. Vol. 6. Buenos Aires: Instituto Nacional de Estadística y Censos (INDEC).
+
+\bibitem[\citeproctext]{ref-bai2003}
+Bai, Jushan, and Pierre Perron. 2003. {``Computation and Analysis of Multiple Structural Change Models.''} \emph{Journal of Applied Econometrics} 18 (1): 1--22. \url{https://doi.org/10.1002/jae.659}.
+
+\bibitem[\citeproctext]{ref-bcra2022}
+BCRA. 2022. {``Última Comunicación Incorporada: {`A'} 7516 - Texto Ordenado Al 19/05/2022.''} Buenos Aires, Argentina.
+
+\bibitem[\citeproctext]{ref-box2015}
+Box, G., G. Jenkins, and G. Ljung. 2015. \emph{Time Series Analysis: Forecasting and Control}. Hoboken, New Jersey: John Wiley \& Sons, Inc.
+
+\bibitem[\citeproctext]{ref-brockwell2002}
+Brockwell, P. J., and R. A. Davis. 2002. \emph{Introduction to Time Series and Forecasting}. Second. New York: Springer New York.
+
+\bibitem[\citeproctext]{ref-bunyamin2021}
+Bunyamin, H. 2021. {``Classical and Deep Learning Time Series Prediction Techniques in the Case of Indonesian Economic Growth.''} In \emph{IOP Conference Series: Materials Science and Engineering}, 1077:012014. 1. IOP Publishing.
+
+\bibitem[\citeproctext]{ref-canova1995}
+Canova, F., and B. E. Hansen. 1995. {``Are Seasonal Patterns Constant over Time? A Test for Seasonal Stability.''} \emph{Journal of Business \& Economic Statistics} 13 (3): 237--52.
+
+\bibitem[\citeproctext]{ref-ciaracec2022}
+CIARA-CEC. 2022. {``Cámara de La Industria Aceitera de La República Argentina.''} \url{http://www.ciaracec.com.ar/ciara/Comunicación/Divisas}.
+
+\bibitem[\citeproctext]{ref-dickey1981}
+Dickey, D., and W. Fuller. 1981. {``Likelihood Ratio Statistics for Autoregressive Time Series with a Unit Root.''} \emph{Econometrica: Journal of the Econometric Society}, 1057--72.
+
+\bibitem[\citeproctext]{ref-diebold1995}
+Diebold, F., and R. Mariano. 1995. {``Comparing Predictive Accuracy.''} \emph{Journal of Business and Economic Statistics} 13: 253--65.
+
+\bibitem[\citeproctext]{ref-eckhardt2018}
+Eckhardt, K. 2018. {``Choosing the Right Hyperparameters for a Simple LSTM Using Keras.''} Towards Data Science. \url{https://towardsdatascience.com/choosing-the-right-hyperparameters-for-a-simple-lstm-using-keras-f8e9ed76f046}.
+
+\bibitem[\citeproctext]{ref-harvey1997}
+Harvey, D., S. Leybourne, and P. Newbold. 1997. {``Testing the Equality of Prediction Mean Squared Errors.''} \emph{International Journal of Forecasting}, 281--91.
+
+\bibitem[\citeproctext]{ref-hochreiter1997}
+Hochreiter, S., and J. Schmidhuber. 1997. {``Long Short-Term Memory.''} \emph{Neural Computation}, 1735--80.
+
+\bibitem[\citeproctext]{ref-hylleberg1990}
+Hylleberg, S., R. Engle, C. Granger, and B. Yoo. 1990. {``Seasonal Integration and Cointegration.''} \emph{Journal of Econometrics} 44 (1-2): 215--38.
+
+\bibitem[\citeproctext]{ref-hyndman2008}
+Hyndman, R. J., and Y. Khandakar. 2008. {``Automatic Time Series Forecasting: The Forecast Package for r.''} \emph{Journal of Statistical Software} 27 (3): 1--22.
+
+\bibitem[\citeproctext]{ref-hyndman2006}
+Hyndman, R., and A. Koehler. 2006. {``Another Look at Measures of Forecast Accuracy.''} \emph{International Journal of Forecasting}, 679--88.
+
+\bibitem[\citeproctext]{ref-ioffe2015}
+Ioffe, S., and C. Szegedy. 2015. {``Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift.''} In \emph{International Conference on Machine Learning}, 448--56.
+
+\bibitem[\citeproctext]{ref-jansen2021}
+Jansen, A. 2021. {``Master's Thesis: Sales Forecasting of Luxury Products Using LSTM Neural Networks and ARIMA Models.''} Master's thesis, Países Bajos: Groninga.
+
+\bibitem[\citeproctext]{ref-kingma2015}
+Kingma, D. P., and J. Ba. 2015. {``Adam: A Method for Stochastic Optimization.''} In \emph{International Conference on Learning Representations (ICLR)}. San Diego, California, USA.
+
+\bibitem[\citeproctext]{ref-kwiatkowski1992}
+Kwiatkowski, D., P. Phillips, P. Schmidt, and Y. Shin. 1992. {``Testing the Null Hypothesis of Stationarity Against the Alternative of a Unit Root: How Sure Are We That Economic Time Series Have a Unit Root?''} \emph{Journal of Econometrics} 54 (1-3): 159--78.
+
+\bibitem[\citeproctext]{ref-li2021}
+Li, C., X. Li, X. Li, M. Rahman, X. Li, J. Wu, and M. Grzegorzek. 2021. {``A State-of-the-Art Survey of Artificial Neural Networks for Whole-Slide Image Analysis: From Popular Convolutional Neural Networks to Potential Visual Transformers.''} \emph{arXiv}.
+
+\bibitem[\citeproctext]{ref-martinez1995}
+Martinez Hernando, V., and J. R. Hilera. 1995. \emph{Redes Neuronales Artificiales: Fundamentos, Modelos y Aplicaciones}. Madrid: RA-MA Editorial.
+
+\bibitem[\citeproctext]{ref-peirano2021}
+Peirano, R., W. Kristjanpoller, and M. C. Minutolo. 2021. {``Forecasting Inflation in Latin American Countries Using a SARIMA--LSTM Combination.''} \emph{Soft Computing}, 10851--62.
+
+\bibitem[\citeproctext]{ref-phillips1988}
+Phillips, Peter C. B., and Pierre Perron. 1988. {``Testing for a Unit Root in Time Series Regression.''} \emph{Biometrika} 75 (2): 335--46. \url{https://doi.org/10.1093/biomet/75.2.335}.
+
+\bibitem[\citeproctext]{ref-riofrio2020}
+Riofrío, J., O. Chang, E. Revelo-Fuegalán, and D. Peluffo-Ordóñez. 2020. {``Forecasting the Consumer Price Index (CPI) of Ecuador.''} \emph{International Journal on Advanced Science Engineering Information Technology}, 1078--84.
+
+\bibitem[\citeproctext]{ref-roos2019}
+Roos, M. 2019. {``Deep Learning Neurons Versus Biological Neurons.''} Towards Data Science. \url{https://towardsdatascience.com/deep-learning-versus-biological-neurons-floating-point-numbers-spikes-and-neurotransmitters-6eebfa3390e9}.
+
+\bibitem[\citeproctext]{ref-siami2018}
+Siami-Namini, S., N. Tavakoli, and A. S. Namin. 2018. {``A Comparison of ARIMA and LSTM in Forecasting Time Series.''} In \emph{17th IEEE International Conference on Machine Learning and Applications (ICMLA)}, 1394--1401. Orlando, FL, USA.
+
+\bibitem[\citeproctext]{ref-srivastava2014}
+Srivastava, N., G. Hinton, A. Krizhevsky, I. Sutskever, and R. Salakhutdinov. 2014. {``Dropout: A Simple Way to Prevent Neural Networks from Overfitting.''} \emph{Journal of Machine Learning Research}, 1929--58.
+
+\bibitem[\citeproctext]{ref-tourneboeuf}
+Tourneboeuf, M. n.d. {``Ai \textless- StackExchange Top 100.''} GitHub. \url{https://tinmarino.github.io/wiki_html/So/Ai_top_100_se.html}.
+
+\bibitem[\citeproctext]{ref-vijayaprabakaran2020}
+Vijayaprabakaran, K., and K. Sathiyamurthy. 2020. {``Towards Activation Function Search for Long Short-Term Model Network: A Differential Evolution Based Approach.''} \emph{Journal of King Saud University -- Computer and Information Sciences}. \url{https://doi.org/10.1016/j.jksuci.2020.04.015}.
+
+\bibitem[\citeproctext]{ref-zou2020}
+Zou, Z., and Z. Qu. 2020. {``Using LSTM in Stock Prediction and Quantitative Trading.''} CS230: Deep Learning, Winter.
+
+\end{CSLReferences}
+
+\newpage
+
+\section{Anexo}\label{anexo}
+
+\subsection{Tablas adicionales}\label{tablas-adicionales}
+
+Las tablas detalladas de errores de predicción por modelo y por horizonte se generan con el script \texttt{coding.R} y se exportan al archivo \texttt{Tabla.Resultados.xlsx}. Los resultados numéricos de las tablas y figuras del Capítulo 4 y del Anexo que dependen de ese archivo requieren haber ejecutado previamente el script \texttt{coding.R} y disponer de \texttt{Tabla.Resultados.xlsx} en el directorio del proyecto. A continuación se listan las hojas disponibles:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Resumen}: métricas promedio (RMSE, MAE, MAPE, SMAPE, MASE) sobre los 12 horizontes para cada modelo.
+\item
+  \textbf{MAPE\_Detalle}: MAPE por horizonte (columnas 1m--12m) por modelo.
+\item
+  \textbf{SMAPE\_Detalle}: SMAPE por horizonte por modelo.
+\item
+  \textbf{MASE\_Detalle}: MASE por horizonte por modelo.
+\item
+  \textbf{HitRate\_Detalle}: Precisión direccional (Hit Rate) por horizonte por modelo.
+\item
+  \textbf{DM\_Tests}: resultados del test de Diebold-Mariano (SARIMA como referencia) con corrección HLN en horizontes 1, 3, 6 y 12.
+\item
+  \textbf{Metricas\_Full}: tabla larga con todas las métricas por modelo, horizonte y tipo de error.
+\item
+  \textbf{LSTM\_Tuning}: resultados de la grilla de 72 configuraciones y MAE en validación.
+\end{itemize}
+
+\subsubsection{Tabla 7: sMAPE por horizonte}\label{tabla-7-smape-por-horizonte}
+
+Los valores del error simétrico porcentual medio absoluto (sMAPE) por modelo y por horizonte (1 a 12 meses) se encuentran detallados a continuación:
+
+\begin{table}
+
+\caption{\label{tab:tab-smape}sMAPE por modelo y horizonte.}
+\centering
+\begin{tabular}[t]{lrrrrrr}
+\toprule
+Horizonte & SARIMA & AR(1) & ETS & Theta & NNETAR & Combinación\\
+\midrule
+1m & 19.62 & 18.91 & 21.19 & 21.36 & 19.13 & 17.55\\
+2m & 24.49 & 25.74 & 24.92 & 25.32 & 23.79 & 21.83\\
+3m & 25.01 & 27.08 & 24.71 & 25.40 & 26.00 & 22.10\\
+4m & 25.84 & 28.03 & 24.70 & 25.55 & 26.78 & 22.95\\
+5m & 25.30 & 28.46 & 25.76 & 25.79 & 28.23 & 23.76\\
+\addlinespace
+6m & 25.71 & 28.97 & 27.71 & 27.84 & 28.41 & 25.23\\
+7m & 26.73 & 29.24 & 28.44 & 29.28 & 27.28 & 25.75\\
+8m & 27.66 & 29.61 & 28.61 & 30.18 & 29.28 & 26.63\\
+9m & 28.10 & 28.90 & 28.28 & 29.98 & 29.26 & 26.05\\
+10m & 27.72 & 28.72 & 27.22 & 28.14 & 29.64 & 25.52\\
+\addlinespace
+11m & 27.61 & 29.21 & 27.10 & 27.28 & 27.37 & 25.93\\
+12m & 28.89 & 29.88 & 28.93 & 28.13 & 28.21 & 26.93\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection{Tabla 8: RMSE por horizonte}\label{tabla-8-rmse-por-horizonte}
+
+Los valores del error cuadrático medio (RMSE) por modelo y por horizonte:
+
+\begin{table}
+
+\caption{\label{tab:tab-rmse}RMSE por modelo y horizonte.}
+\centering
+\begin{tabular}[t]{lrrrrrrrrrrrr}
+\toprule
+Modelo & 1m & 2m & 3m & 4m & 5m & 6m & 7m & 8m & 9m & 10m & 11m & 12m\\
+\midrule
+SARIMA & 493.55 & 562.34 & 584.19 & 598.37 & 621.01 & 642.70 & 644.23 & 657.60 & 657.96 & 668.06 & 678.73 & 700.56\\
+AR(1) & 495.92 & 626.43 & 686.92 & 722.05 & 747.88 & 765.86 & 767.31 & 772.90 & 769.10 & 771.74 & 778.17 & 788.86\\
+ETS & 496.94 & 569.72 & 575.99 & 590.52 & 619.29 & 658.63 & 663.19 & 656.97 & 655.28 & 659.14 & 674.34 & 698.79\\
+Theta & 496.36 & 562.96 & 586.39 & 610.89 & 637.30 & 660.92 & 668.82 & 678.89 & 672.97 & 667.70 & 681.05 & 700.03\\
+NNETAR & 473.47 & 562.51 & 644.28 & 652.59 & 694.60 & 696.99 & 687.21 & 703.59 & 704.91 & 692.97 & 654.64 & 673.17\\
+\addlinespace
+Combinación & 446.11 & 517.09 & 545.07 & 561.82 & 594.91 & 622.21 & 631.31 & 646.53 & 645.29 & 647.38 & 653.67 & 673.77\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Gráfico 1: Serie de liquidación de divisas}\label{gruxe1fico-1-serie-de-liquidaciuxf3n-de-divisas}
+
+\begin{figure}
+
+{\centering \includegraphics{thesis_files/figure-latex/fig-serie-original-1} 
+
+}
+
+\caption{Serie de liquidación de divisas del sector agroexportador (millones USD). Tramo de estimación: junio 2002--abril 2017; evaluación: mayo 2017--marzo 2022.}\label{fig:fig-serie-original}
+\end{figure}
+
+\subsection{Figura 5: Errores porcentuales acumulados}\label{figura-5-errores-porcentuales-acumulados}
+
+\begin{figure}
+
+{\centering \includegraphics{thesis_files/figure-latex/fig-errores-acumulados-1} 
+
+}
+
+\caption{Errores porcentuales absolutos acumulados para el horizonte de 1 mes.}\label{fig:fig-errores-acumulados}
+\end{figure}
+
+\subsection{Figuras 6 a 13: Proyecciones por ventana}\label{figuras-6-a-13-proyecciones-por-ventana}
+
+Las siguientes figuras muestran los valores realizados y las predicciones por modelo en bloques de ventanas. El script \texttt{coding.R} puede generar estos gráficos y guardarlos en \texttt{figuras/}.
+
+\begin{figure}
+
+{\centering \includegraphics{thesis_files/figure-latex/rolling-windows-plot-1} 
+
+}
+
+\caption{Proyecciones por ventana (selección).}\label{fig:rolling-windows-plot}
+\end{figure}
+
+\subsection{Información de la sesión}\label{informaciuxf3n-de-la-sesiuxf3n}
+
+A efectos de reproducibilidad técnica, se detalla a continuación el entorno de software utilizado para la compilación de este documento y la ejecución de los modelos:
+
+\begin{verbatim}
+## R version 4.5.2 (2025-10-31 ucrt)
+## Platform: x86_64-w64-mingw32/x64
+## Running under: Windows 11 x64 (build 26200)
+## 
+## Matrix products: default
+##   LAPACK version 3.12.1
+## 
+## locale:
+## [1] LC_COLLATE=Spanish_Argentina.utf8  LC_CTYPE=Spanish_Argentina.utf8   
+## [3] LC_MONETARY=Spanish_Argentina.utf8 LC_NUMERIC=C                      
+## [5] LC_TIME=Spanish_Argentina.utf8    
+## 
+## time zone: Europe/Madrid
+## tzcode source: internal
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+## [1] tidyr_1.3.1     dplyr_1.1.4     ggplot2_4.0.1   forecast_8.24.0
+## [5] tseries_0.10-58 knitr_1.50     
+## 
+## loaded via a namespace (and not attached):
+##  [1] generics_0.1.4     xml2_1.5.1         stringi_1.8.7      lattice_0.22-7    
+##  [5] digest_0.6.39      magrittr_2.0.4     evaluate_1.0.5     grid_4.5.2        
+##  [9] RColorBrewer_1.1-3 bookdown_0.46      fastmap_1.2.0      cellranger_1.1.0  
+## [13] zip_2.3.3          nnet_7.3-20        purrr_1.2.0        viridisLite_0.4.2 
+## [17] scales_1.4.0       textshaping_1.0.4  cli_3.6.5          rlang_1.1.6       
+## [21] withr_3.0.2        yaml_2.3.11        tools_4.5.2        parallel_4.5.2    
+## [25] colorspace_2.1-2   kableExtra_1.4.0   curl_7.0.0         vctrs_0.6.5       
+## [29] R6_2.6.1           zoo_1.8-14         lifecycle_1.0.4    stringr_1.6.0     
+## [33] pkgconfig_2.0.3    urca_1.3-4         openxlsx_4.2.8.1   pillar_1.11.1     
+## [37] gtable_0.3.6       glue_1.8.0         quantmod_0.4.28    Rcpp_1.1.0        
+## [41] systemfonts_1.3.1  xfun_0.54          tibble_3.3.0       lmtest_0.9-40     
+## [45] tidyselect_1.2.1   rstudioapi_0.17.1  dichromat_2.0-0.1  farver_2.1.2      
+## [49] htmltools_0.5.9    nlme_3.1-168       svglite_2.2.2      rmarkdown_2.30    
+## [53] xts_0.14.1         timeDate_4051.111  fracdiff_1.5-3     compiler_4.5.2    
+## [57] S7_0.2.1           quadprog_1.5-8     readxl_1.4.5       TTR_0.24.4
+\end{verbatim}
+
+\end{document}

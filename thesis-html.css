@@ -1,0 +1,132 @@
+/* Thesis HTML — readable, clean layout */
+
+/* Constrain width for readability */
+.main-container {
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 1.5rem;
+}
+
+/* Typography */
+body {
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: #333;
+}
+
+h1, h2, h3, h4 {
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  font-weight: 600;
+}
+
+h1 { font-size: 1.85rem; border-bottom: 1px solid #e0e0e0; padding-bottom: 0.25em; }
+h2 { font-size: 1.5rem; }
+h3 { font-size: 1.25rem; }
+
+/* Abstract */
+p.abstract {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  padding: 1rem 1.25rem;
+  background: #f8f9fa;
+  border-left: 4px solid #6c757d;
+  margin: 1.5rem 0;
+}
+
+/* Tables */
+.table {
+  font-size: 0.95rem;
+  margin: 1rem 0;
+}
+
+.table thead th {
+  border-bottom: 2px solid #333;
+  font-weight: 600;
+}
+
+.table caption {
+  caption-side: top;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+/* Figures */
+.figure {
+  margin: 1.5rem 0;
+}
+
+.figure img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Math */
+.MathJax, .math {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+/* Block content spacing */
+p {
+  margin-bottom: 0.85em;
+}
+
+ul, ol {
+  margin-bottom: 0.85em;
+}
+
+/* Code (inline and blocks) */
+pre, code {
+  font-size: 0.9em;
+}
+
+pre {
+  padding: 1rem;
+  border-radius: 4px;
+  background: #f5f5f5;
+  border: 1px solid #e0e0e0;
+}
+
+/* Section anchors (when enabled) */
+.header-section-number {
+  margin-right: 0.35em;
+  color: #6c757d;
+}
+
+/* TOC when floating */
+#TOC {
+  font-size: 0.95rem;
+}
+
+#TOC ul {
+  list-style: none;
+  padding-left: 1rem;
+}
+
+#TOC a {
+  color: #495057;
+}
+
+#TOC a:hover {
+  color: #0d6efd;
+}
+
+/* Title on first page */
+.title {
+  font-size: 1.75rem;
+  margin-bottom: 0.25rem;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: #6c757d;
+  margin-bottom: 1rem;
+}
+
+.author, .date {
+  font-size: 1rem;
+  margin-top: 0.5rem;
+}
